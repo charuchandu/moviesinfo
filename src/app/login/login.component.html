@@ -1,16 +1,38 @@
-<div class="example-container">
-    <h1 style="color:blue;text-align: center;">Login</h1>
-    <mat-form-field hintLabel="Max 10 characters" appearance="fill">       
-      <mat-label>Enter some input</mat-label>
-      <input matInput #input maxlength="10" placeholder="Ex. Nougat">
-      <mat-hint align="end">{{input.value?.length || 0}}/10</mat-hint>
-    </mat-form-field>
-    <mat-form-field appearance="fill">
-        <mat-label>Enter your password</mat-label>
-        <input matInput [type]="hide ? 'password' : 'text'">
-        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-        </button>
-      </mat-form-field>
+<div style="display: flex;justify-content: space-around;height:700px;align-items: center;background-color: rgb(156, 245, 245);">
+    <mat-card>
+        <mat-card-title style="text-align:center">Login</mat-card-title>
+        <mat-card-content>
+            <form [formGroup]="form" (ngSubmit)="saveDetails(form)" autocomplete="off">
+                <div>
+                    <mat-form-field appearance="legacy">
+                        <mat-label>Email Address:</mat-label>
+                        <input matInput type="email" formControlName="email" placeholder="Your email">
+                        <mat-icon matSuffix>mail_outline</mat-icon>
+                        <mat-hint>Input the fully qualified email address</mat-hint>
+                        <mat-error *ngIf="form.controls['email'].errors?.['required']">Email is required</mat-error>
+                        <mat-error *ngIf="form.controls['email'].errors?.['pattern']">Please enter valid email</mat-error>
+                    </mat-form-field>
+                </div>
+    
+                <div>
+                    <mat-form-field appearance="standard">
+                        <mat-label>Password </mat-label>
+                        <input matInput [type]="flag ? 'password' : 'text'" placeholder="Enter your password"
+                            formControlName="password">
+                        <mat-icon (click)="flag=!flag" matSuffix>{{ flag ? 'visibility' : 'visibility_off' }}</mat-icon>
+                        <mat-error>Name is required</mat-error>
+                        <mat-error *ngIf="form.controls['password'].errors?.['minlength']">
+                            Please enter more than 6 character
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+    
+                <div style="margin-top: 30px;">
+                    <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">Login</button>
+                </div>
+    
+            </form>
+        </mat-card-content>
+    </mat-card>
 </div>
   
